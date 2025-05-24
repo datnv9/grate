@@ -33,7 +33,7 @@ func (s *Sheet) parseSheet() error {
 	linkmap := make(map[string]string)
 	base := filepath.Base(s.docname)
 	sub := strings.TrimSuffix(s.docname, base)
-	relsname := filepath.Join(sub, "_rels", base+".rels")
+	relsname := strings.ReplaceAll(filepath.Join(sub, "_rels", base+".rels"), "\\", "/") // fix the sep in zip file is still "/" but on windows is "\"
 	dec, clo, err := s.d.openXML(relsname)
 	if err == nil {
 		// rels might not exist for every sheet

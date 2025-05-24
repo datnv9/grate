@@ -32,7 +32,7 @@ func (d *Document) parseRels(dec *xml.Decoder, basedir string) error {
 					// handle malformed "absolute" paths cleanly
 					d.rels[vals["Type"]][vals["Id"]] = vals["Target"][1:]
 				} else {
-					d.rels[vals["Type"]][vals["Id"]] = filepath.Join(basedir, vals["Target"])
+					d.rels[vals["Type"]][vals["Id"]] = strings.ReplaceAll(filepath.Join(basedir, vals["Target"]), "\\", "/") // fix EOF in windows for sep being "\" instead of "/"
 				}
 				if vals["Type"] == "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" {
 					d.primaryDoc = vals["Target"]
